@@ -25,7 +25,8 @@ class Article
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleContent::class, mappedBy="article", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=ArticleContent::class, mappedBy="article", orphanRemoval=true,
+     *     cascade={"persist"})
      */
     private $articleContents;
 
