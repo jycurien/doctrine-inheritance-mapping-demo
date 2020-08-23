@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\ArticleContentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleContentRepository::class)
+ * @InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorColumn(name="content_type", type="string")
+ * @DiscriminatorMap({"text" = "ArticleContent", "markdown" = "MarkdownContent"})
  */
 class ArticleContent
 {
@@ -15,12 +21,12 @@ class ArticleContent
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    protected $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="articleContents")
