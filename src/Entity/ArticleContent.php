@@ -12,7 +12,13 @@ use Doctrine\ORM\Mapping\InheritanceType;
  * @ORM\Entity(repositoryClass=ArticleContentRepository::class)
  * @InheritanceType("SINGLE_TABLE")
  * @DiscriminatorColumn(name="content_type", type="string")
- * @DiscriminatorMap({"text" = "ArticleContent", "markdown" = "MarkdownContent"})
+ * @DiscriminatorMap({
+ *     "text" = "ArticleContent",
+ *     "markdown" = "MarkdownContent",
+ *     "code" = "CodeContent",
+ *     "image" = "ImageContent",
+ *     "github" = "GithubContent",
+ * })
  */
 class ArticleContent
 {

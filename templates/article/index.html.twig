@@ -3,6 +3,11 @@
 {% block title %}
     All Articles
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+{% endblock %}
 
 
 {% block body %}
@@ -11,8 +16,16 @@
         <article>
             <h2>{{ article.title }}</h2>
             {% for content in article.articleContents  %}
-                <div>{{dump(content)}}</div>
+                <div>{{ content.content | raw }}</div>
             {% endfor %}
         </article>
+        <hr>
     {% endfor %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
