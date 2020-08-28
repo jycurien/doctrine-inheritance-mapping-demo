@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\ContentFormatter;
 
 
 use App\Entity\ArticleContent;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class GithubContentFormater implements ContentFormaterInterface
+class GithubContentFormatter implements ContentFormatterInterface
 {
     private $httpClient;
 
@@ -16,9 +16,9 @@ class GithubContentFormater implements ContentFormaterInterface
         $this->httpClient = $httpClient;
     }
 
-    public function formatContent(ArticleContent $content)
+    public function formatContent(ArticleContent $content, ?string $locale = null)
     {
-        $response = $this->httpClient->request('GET', $content->getContent());
+        $response = $this->httpClient->request('GET', $content->getContent(null));
         return '<pre><code class="'.$content->getLanguage().'">'.htmlspecialchars(base64_decode($response->toArray()['content'])).'</code></pre>';
     }
 }

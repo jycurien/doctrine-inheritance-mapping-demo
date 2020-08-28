@@ -16,17 +16,20 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $article = new Article();
-        $article->setTitle("Article One With An Image and Simple Text Content and Github Content");
+        $article->setTitle("Premier Article");
+        $article->translate('en', 'First Article');
         $content = new ImageContent();
         $content->setContent('https://picsum.photos/400/200');
         $article->addArticleContent($content);
 
         $content = new ArticleContent();
         $content->setContent(<<<EOF
-simple text content
+Bonjour, il fait beau aujourd'hui...
 lorem ipsum ...
 EOF
         );
+        $content->translate('en', 'translated text content');
+        $content->translate('de', 'translated german content');
         $article->addArticleContent($content);
 
         $content = new GithubContent();
@@ -40,8 +43,8 @@ EOF
         $article->setTitle("Article Two With Markdown Content");
         $content = new MarkdownContent();
         $content->setContent(<<<EOF
-#Markdown Content
-## Subtitle
+##Markdown Content
+
 Images could be input in markdown so we might no need the image type ?
 
 ![alt text](https://picsum.photos/400/200)
@@ -67,6 +70,7 @@ window.addEventListener('DOMContentLoaded', () => {
 Lorem ipsum dolor sit **amet** ...
 EOF
         );
+        $content->translate('en', 'translated **markdown** content');
         $article->addArticleContent($content);
         $manager->persist($article);
         $manager->flush();
@@ -83,8 +87,8 @@ EOF
 
         $content = new MarkdownContent();
         $content->setContent(<<<EOF
-#Markdown Content
-## Subtitle
+##Markdown Content
+
 Lorem ipsum dolor sit **amet** ...
 EOF
         );
@@ -97,8 +101,8 @@ EOF
 
         $content = new MarkdownContent();
         $content->setContent(<<<EOF
-#Markdown Content
-## Subtitle
+##Markdown Content
+
 Lorem ipsum dolor sit **amet** ...
 EOF
         );
