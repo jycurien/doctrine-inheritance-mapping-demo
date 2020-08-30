@@ -11,9 +11,9 @@
 
 {% block body %}
     <article>
-        <h1>{{ article.getTitle(app.request.locale) }}</h1>
+        <h1>{{ article.getTranslation(app.request.locale).title }}</h1>
         {% for content in article.articleContents  %}
-            <div>{{ content.content | raw }}</div>
+            <div>{{ content.getTranslation(app.request.locale).content | raw }}</div>
         {% endfor %}
     </article>
 {% endblock %}

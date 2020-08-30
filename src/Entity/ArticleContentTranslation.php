@@ -25,12 +25,12 @@ class ArticleContentTranslation
     /**
      * @ORM\Column(type="text")
      */
-    private $contentTranslation;
+    private $content;
 
-    public function __construct(string $locale, string $contentTranslation)
+    public function __construct(string $locale, string $content)
     {
         $this->locale = $locale;
-        $this->contentTranslation = $contentTranslation;
+        $this->content = $content;
     }
 
     /**
@@ -56,14 +56,14 @@ class ArticleContentTranslation
         return $this;
     }
 
-    public function getContentTranslation(): ?string
+    public function getContent(): ?string
     {
-        return $this->contentTranslation;
+        return $this->content;
     }
 
-    public function setContentTranslation(string $contentTranslation): self
+    public function setContent(string $content): self
     {
-        $this->contentTranslation = $contentTranslation;
+        $this->content = $content;
 
         return $this;
     }

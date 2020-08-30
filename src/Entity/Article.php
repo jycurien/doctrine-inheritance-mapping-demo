@@ -46,17 +46,8 @@ class Article
         return $this->id;
     }
 
-    public function getTitle(?string $locale = null): ?string
+    public function getTitle(): ?string
     {
-        if ($locale && !$this->articleTranslations->isEmpty()) {
-            /** @var ArticleTranslation $articleTranslation */
-            $articleTranslation = $this->articleTranslations->filter(function($translation) use ($locale) {
-                return $translation->getLocale() === $locale;
-            })->first();
-
-            return $articleTranslation ? $articleTranslation->getTitleTranslation() : $this->title;
-        }
-
         return $this->title;
     }
 
@@ -132,5 +123,19 @@ class Article
     public function translate(string $locale, string $titleTranslation)
     {
         $this->addArticleTranslation(new ArticleTranslation($locale, $titleTranslation));
+    }
+
+    public function getTranslation(string $locale)
+    {
+        if (!$this->articleTranslations->isEmpty()) {
+            /** @var ArticleTranslation $articleTranslation */
+            $articleTranslation = $this->articleTranslations->filter(function($translation) use ($locale) {
+                return $translation->getLocale() === $locale;
+            })->first();
+
+            return $articleTranslation ? $articleTranslation : $this;
+        }
+
+        return $this;
     }
 }

@@ -8,7 +8,7 @@
     <h1>All Articles</h1>
     {% for article in articles  %}
         <article>
-            <h2>{{ article.getTitle(app.request.locale) }}</h2>
+            <h2>{{ article.getTranslation(app.request.locale).title }}</h2>
             <p><a href="{{ path('article_show', {id: article.id}) }}">Read More</a></p>
         </article>
         <hr>

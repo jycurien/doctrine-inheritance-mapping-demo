@@ -58,16 +58,8 @@ class ArticleContent
         return $this->id;
     }
 
-    public function getContent(?string $locale = null): ?string
+    public function getContent(): ?string
     {
-        if ($locale && !$this->articleContentTranslations->isEmpty()) {
-            /** @var ArticleContentTranslation $articleContentTranslation */
-            $articleContentTranslation = $this->articleContentTranslations->filter(function($translation) use ($locale) {
-                return $translation->getLocale() === $locale;
-            })->first();
-
-            return $articleContentTranslation ? $articleContentTranslation->getContentTranslation() : $this->content;
-        }
         return $this->content;
     }
 
@@ -129,5 +121,19 @@ class ArticleContent
     public function getType()
     {
         return (new \ReflectionClass($this))->getShortName();
+    }
+
+    public function getTranslation(string $locale)
+    {
+        if (!$this->articleContentTranslations->isEmpty()) {
+            /** @var ArticleContentTranslation $articleContentTranslation */
+            $articleContentTranslation = $this->articleContentTranslations->filter(function($translation) use ($locale) {
+                return $translation->getLocale() === $locale;
+            })->first();
+
+            return $articleContentTranslation ? $articleContentTranslation : $this;
+        }
+
+        return $this;
     }
 }

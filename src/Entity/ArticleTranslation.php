@@ -25,7 +25,7 @@ class ArticleTranslation
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $titleTranslation;
+    private $title;
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="articleTranslations")
@@ -33,10 +33,10 @@ class ArticleTranslation
      */
     private $article;
 
-    public function __construct(string $locale, string $titleTranslation)
+    public function __construct(string $locale, string $title)
     {
         $this->locale = $locale;
-        $this->titleTranslation = $titleTranslation;
+        $this->title = $title;
     }
 
     public function getId(): ?int
@@ -56,14 +56,14 @@ class ArticleTranslation
         return $this;
     }
 
-    public function getTitleTranslation(): ?string
+    public function getTitle(): ?string
     {
-        return $this->titleTranslation;
+        return $this->title;
     }
 
-    public function setTitleTranslation(string $titleTranslation): self
+    public function setTitle(string $title): self
     {
-        $this->titleTranslation = $titleTranslation;
+        $this->title = $title;
 
         return $this;
     }
