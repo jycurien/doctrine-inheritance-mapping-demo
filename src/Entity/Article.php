@@ -31,7 +31,8 @@ class Article
     private $articleContents;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleTranslation::class, mappedBy="article", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=ArticleTranslation::class, mappedBy="article", orphanRemoval=true,
+     *     indexBy="locale", cascade={"persist"})
      */
     private $articleTranslations;
 
@@ -129,11 +130,9 @@ class Article
     {
         if (!$this->articleTranslations->isEmpty()) {
             /** @var ArticleTranslation $articleTranslation */
-            $articleTranslation = $this->articleTranslations->filter(function($translation) use ($locale) {
-                return $translation->getLocale() === $locale;
-            })->first();
+            $articleTranslation = $this->articleTranslations->get($locale);
 
-            return $articleTranslation ? $articleTranslation : $this;
+            return $articleTranslation ?? $this;
         }
 
         return $this;
