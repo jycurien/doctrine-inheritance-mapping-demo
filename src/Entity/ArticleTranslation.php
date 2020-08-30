@@ -10,17 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ArticleTranslation
 {
+    use TranslationTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=10)
-     */
-    private $locale;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -42,18 +39,6 @@ class ArticleTranslation
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale): self
-    {
-        $this->locale = $locale;
-
-        return $this;
     }
 
     public function getTitle(): ?string
