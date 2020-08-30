@@ -34,12 +34,12 @@ class Article
      * @ORM\OneToMany(targetEntity=ArticleTranslation::class, mappedBy="article", orphanRemoval=true,
      *     indexBy="locale", cascade={"persist"})
      */
-    private $articleTranslations;
+    private $translations;
 
     public function __construct()
     {
         $this->articleContents = new ArrayCollection();
-        $this->articleTranslations = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,28 +93,28 @@ class Article
     /**
      * @return Collection|ArticleTranslation[]
      */
-    public function getArticleTranslations(): Collection
+    public function getTranslations(): Collection
     {
-        return $this->articleTranslations;
+        return $this->translations;
     }
 
-    public function addArticleTranslation(ArticleTranslation $articleTranslation): self
+    public function addTranslation(ArticleTranslation $translation): self
     {
-        if (!$this->articleTranslations->contains($articleTranslation)) {
-            $this->articleTranslations[] = $articleTranslation;
-            $articleTranslation->setArticle($this);
+        if (!$this->translations->contains($translation)) {
+            $this->translations[] = $translation;
+            $translation->setArticle($this);
         }
 
         return $this;
     }
 
-    public function removeArticleTranslation(ArticleTranslation $articleTranslation): self
+    public function removeTranslation(ArticleTranslation $translation): self
     {
-        if ($this->articleTranslations->contains($articleTranslation)) {
-            $this->articleTranslations->removeElement($articleTranslation);
+        if ($this->translations->contains($translation)) {
+            $this->translations->removeElement($translation);
             // set the owning side to null (unless already changed)
-            if ($articleTranslation->getArticle() === $this) {
-                $articleTranslation->setArticle(null);
+            if ($translation->getArticle() === $this) {
+                $translation->setArticle(null);
             }
         }
 
@@ -123,16 +123,16 @@ class Article
 
     public function translate(string $locale, string $titleTranslation)
     {
-        $this->addArticleTranslation(new ArticleTranslation($locale, $titleTranslation));
+        $this->addTranslation(new ArticleTranslation($locale, $titleTranslation));
     }
 
     public function getTranslation(string $locale)
     {
-        if (!$this->articleTranslations->isEmpty()) {
-            /** @var ArticleTranslation $articleTranslation */
-            $articleTranslation = $this->articleTranslations->get($locale);
+        if (!$this->translations->isEmpty()) {
+            /** @var ArticleTranslation $translation */
+            $translation = $this->translations->get($locale);
 
-            return $articleTranslation ?? $this;
+            return $translation ?? $this;
         }
 
         return $this;

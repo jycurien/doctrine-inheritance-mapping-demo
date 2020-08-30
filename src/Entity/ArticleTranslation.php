@@ -25,7 +25,7 @@ class ArticleTranslation
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="articleTranslations")
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="translations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;

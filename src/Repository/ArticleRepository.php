@@ -24,7 +24,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAllTranslated()
     {
         return $this->createQueryBuilder('a')
-            ->leftJoin('a.articleTranslations', 'at')
+            ->leftJoin('a.translations', 'at')
             ->addSelect('at')
             ->orderBy('a.id', 'DESC')
             ->getQuery()
@@ -35,8 +35,8 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->join('a.articleContents', 'ac')
-            ->leftJoin('a.articleTranslations', 'at')
-            ->leftJoin('ac.articleContentTranslations', 'act')
+            ->leftJoin('a.translations', 'at')
+            ->leftJoin('ac.translations', 'act')
             ->addSelect('ac, at, act')
             ->andWhere('a.id = :id')
             ->setParameters(['id' => $id])
