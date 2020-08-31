@@ -22,8 +22,10 @@ use Doctrine\ORM\Mapping\InheritanceType;
  *     "github" = "GithubContent",
  * })
  */
-class ArticleContent
+class ArticleContent implements TranslatableInterface
 {
+    use TranslatableTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -41,12 +43,6 @@ class ArticleContent
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ArticleContentTranslation::class, mappedBy="articleContent",
-     *     orphanRemoval=true, indexBy="locale", cascade={"persist"})
-     */
-    private $translations;
 
     public function __construct()
     {
@@ -82,56 +78,8 @@ class ArticleContent
         return $this;
     }
 
-    /**
-     * @return Collection|ArticleContentTranslation[]
-     */
-    public function getTranslations(): Collection
-    {
-        return $this->translations;
-    }
-
-    public function addTranslation(ArticleContentTranslation $translation): self
-    {
-        if (!$this->translations->contains($translation)) {
-            $this->translations[] = $translation;
-            $translation->setArticleContent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTranslation(ArticleContentTranslation $translation): self
-    {
-        if ($this->translations->contains($translation)) {
-            $this->translations->removeElement($translation);
-            // set the owning side to null (unless already changed)
-            if ($translation->getArticleContent() === $this) {
-                $translation->setArticleContent(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function translate(string $locale, string $articleContentTranslation)
-    {
-        $this->addTranslation(new ArticleContentTranslation($locale, $articleContentTranslation));
-    }
-
     public function getType()
     {
         return (new \ReflectionClass($this))->getShortName();
-    }
-
-    public function getTranslation(string $locale)
-    {
-        if (!$this->translations->isEmpty()) {
-            /** @var ArticleContentTranslation $translation */
-            $translation = $this->translations->get($locale);
-
-            return $translation ?? $this;
-        }
-
-        return $this;
     }
 }

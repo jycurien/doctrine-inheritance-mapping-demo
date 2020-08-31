@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ArticleTranslationRepository::class)
  */
-class ArticleTranslation
+class ArticleTranslation implements TranslationInterface
 {
     use TranslationTrait;
 
@@ -24,15 +24,8 @@ class ArticleTranslation
      */
     private $title;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="translations")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $article;
-
-    public function __construct(string $locale, string $title)
+    public function __construct(string $title)
     {
-        $this->locale = $locale;
         $this->title = $title;
     }
 
@@ -49,18 +42,6 @@ class ArticleTranslation
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
 
         return $this;
     }

@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\ArticleContent;
+use App\Entity\ArticleContentTranslation;
+use App\Entity\ArticleTranslation;
 use App\Entity\CodeContent;
 use App\Entity\GithubContent;
 use App\Entity\ImageContent;
@@ -17,7 +19,8 @@ class AppFixtures extends Fixture
     {
         $article = new Article();
         $article->setTitle("Premier Article");
-        $article->translate('en', 'First Article');
+        $translation = new ArticleTranslation('First Article');
+        $article->translate('en', $translation);
         $content = new ImageContent();
         $content->setContent('https://picsum.photos/400/200');
         $article->addArticleContent($content);
@@ -28,8 +31,8 @@ Bonjour, il fait beau aujourd'hui...
 lorem ipsum ...
 EOF
         );
-        $content->translate('en', 'translated text content');
-        $content->translate('de', 'translated german content');
+        $translation = new ArticleContentTranslation('translated text content');
+        $content->translate('en', $translation);
         $article->addArticleContent($content);
 
         $content = new GithubContent();
@@ -70,7 +73,8 @@ window.addEventListener('DOMContentLoaded', () => {
 Lorem ipsum dolor sit **amet** ...
 EOF
         );
-        $content->translate('en', 'translated **markdown** content');
+        $translation = new ArticleContentTranslation('translated **markdown** content');
+        $content->translate('en', $translation);
         $article->addArticleContent($content);
         $manager->persist($article);
         $manager->flush();

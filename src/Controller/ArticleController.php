@@ -32,7 +32,9 @@ class ArticleController extends AbstractController
     public function show(int $id, ArticleRepository $repository, Request $request, ContentFormatter $formatter)
     {
         $article = $repository->findOneTranslated($id);
-
+        if (null === $article) {
+            throw $this->createNotFoundException(sprintf('There is no article with id %s', $id));
+        }
         foreach ($article->getArticleContents() as $content) {
             $content->setContent($formatter->formatContent($content, $request->getLocale()));
         }
